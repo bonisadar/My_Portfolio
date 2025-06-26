@@ -262,55 +262,156 @@
 
             <!-- First Project Entry -->
             <div class="row project-entry">
+                <!-- Left: Info -->
                 <div class="column xl-6 lg-6 md-12 project-info">
                     <h3 class="text-lg">Phishing URL Detection</h3>
-                        <p class="project-brief">
-                            A machine learning model trained to distinguish phishing URLs from legitimate ones.
-                        </p>
+                    <p class="project-brief">
+                    A machine learning model trained to distinguish phishing URLs from legitimate ones.
+                    </p>
 
-                        <a class="btn btn--stroke u-margin-top-sm" 
-                            href="https://github.com/yourusername/phishing-url-detection" 
-                            target="_blank" rel="noopener noreferrer">
-                            View GitHub Repo
-                        </a>
+                    <a class="btn btn--stroke u-margin-top-sm" 
+                    href="https://github.com/bonisadar/SpringboardCapstoneTwo" 
+                    target="_blank" rel="noopener noreferrer">
+                    View GitHub Repo
+                    </a>
 
-                        <button class="toggle-details u-margin-top-sm" onclick="this.nextElementSibling.classList.toggle('show'); this.textContent = this.textContent === 'Show more' ? 'Show less' : 'Show more';">
-                        Show more
-                        </button>
+                    <button class="toggle-details u-margin-top-sm"
+                            onclick="document.querySelector('#phishing-details').classList.toggle('show'); this.textContent = this.textContent === 'Show more' ? 'Show less' : 'Show more';">
+                    Show more
+                    </button>
+                </div>
 
-                        <div class="project-details">
-                            <p>
-                                This project utilizes URL-based features and ML classifiers like Random Forest and Logistic Regression to identify phishing URLs. Features include lexical analysis, suspicious keyword detection, and structural patterns. Performance was evaluated with accuracy, precision, and ROC-AUC.
-                            </p>
+                <!-- Right: Thumbnail -->
+                <div class="column xl-6 lg-6 md-12 project-thumbnail">
+                    <div class="thumbnail-wrapper">
+                    <img src="images/phishing.jpeg" alt="Phishing URL Detection Project Thumbnail" class="u-full-width">
+                    </div>
+                </div>
+      
+                <!-- Full-width blog-style details below -->
+                <div class="column xl-12">
+                    <div class="project-details blog-style" id="phishing-details">
+                            <h4>Project Overview</h4>
+                                <p>
+                                    Phishing URLs are deceptive links crafted by cybercriminals to steal sensitive user information. These malicious URLs are commonly spread via spam emails, fraudulent messages, and compromised websites.
+                                </p>
+                                <p>
+                                    Phishing attacks pose severe risks to individuals and organizations, leading to financial losses and data breaches. In 2023, phishing attacks surged by 173% compared to the previous quarter.
+                                </p>
+                                <p>
+                                    This project aims to build an efficient and scalable machine learning model to detect phishing URLs and mitigate cybersecurity threats.
+                                </p>
+
+                                <h4>Methodology</h4>
+                                <p>
+                                    This approach focuses on analyzing the inherent characteristics of phishing URLs, avoiding dependence on external data sources like robots.txt or WHOIS records. 
+                                    Instead, it extracts features directly from the URL, ensuring faster and more robust detection.
+                                </p>
+
+                                <h5>Key Methodological Choices</h5>
+                                <ul>
+                                    <li>URL-Based Feature Engineering</li>
+                                    <li>Caching with Python’s <code>@lru_cache()</code> for performance</li>
+                                    <li>Machine Learning Classifiers trained on structured URL features</li>
+                                </ul>
+
+                                <h5>Features Used for Detection</h5>
+                                <ul>
+                                    <li>URL Length</li>
+                                    <li>Extracting the Fully Qualified Domain Name (FQDN)</li>
+                                    <div class="code-wrapper">
+                                    <pre><code class="language-python">
+# Extracting the Fully Qualified Domain Name (FQDN) 
+# (containing domain, subdomain, TLD, port, etc.)
+df['FQDN'] = df['url'].str.split('/').str[0]
+                                    </code></pre>
+                                    </div>
+                                    <li>Top-Level Domain (TLD) Similarity Scores</li>
+                                        <p>Used a pandas DataFrame containing legitimate top level domains extracted from wikipedia https://en.wikipedia.org/wiki/List_of_Internet_top-level_domains</p>
+                                    <li>Special Characters Distribution</li>
+                                    <li>Entropy Analysis</li>
+                                    <li>Obfuscation Detection (Hex IPs, Encoded Characters)</li>
+                                    <li>Text Similarity (Levenshtein, Jaro-Winkler, etc.)</li>
+                                    <li>Word Patterns (via NLTK Corpus)</li>
+                                    <li>Log Transformations for normalization</li>
+                                </ul>
+
+                                <h4>Data Source</h4>
+                                <p>
+                                    Dataset sourced from Kaggle containing labeled phishing and legitimate URLs.
+                                </p>
+
+                                <h4>Data Cleaning</h4>
+                                <p>
+                                    Cleaned non-ASCII characters, extra prefixes (like extra https or www), and malformed entries.
+                                </p>
+
+                                <h4>Feature Engineering Steps</h4>
+                                <ul>
+                                    <li><strong>FQDN & TLD Extraction</strong></li>
+                                    <li><strong>Shannon Entropy Calculation</strong> — for randomness measurement</li>
+                                    <li><strong>Text Similarity Matching</strong> using:
+                                    <ul>
+                                        <li>Levenshtein Distance</li>
+                                        <li>Damerau-Levenshtein</li>
+                                        <li>Jaro-Winkler</li>
+                                    </ul>
+                                    </li>
+                                    <li><strong>Obfuscation Patterns</strong> (e.g. <code>%2F</code> instead of <code>/</code>, hex IPs)</li>
+                                    <li><strong>Log Transforms</strong> to reduce skewness in features</li>
+                                </ul>
+
+                                <h4>Machine Learning Models</h4>
+                                <p>We tested multiple models using <code>scikit-learn</code>:</p>
+                                <ul>
+                                    <li>K-Nearest Neighbors (KNN)</li>
+                                    <li>Support Vector Classifier (SVC)</li>
+                                    <li>XGBoost Classifier</li>
+                                </ul>
+
+                                <h5>TF-IDF + Dimensionality Reduction</h5>
+                                <p>
+                                    Text-based feature extraction using <strong>TF-IDF</strong> and compression via <strong>TruncatedSVD</strong>.
+                                </p>
+
+                                <pre><code class="language-python">
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD
+
+tfidf = TfidfVectorizer()
+X_text = tfidf.fit_transform(urls)
+
+svd = TruncatedSVD(n_components=100)
+X_reduced = svd.fit_transform(X_text)
+                                </code></pre>
+
+                                <h4>Future Improvements</h4>
+                                <ul>
+                                    <li>Integrate <code>Word2Vec</code> for smarter domain comparisons</li>
+                                    <li>Dynamic similarity index from live web data</li>
+                                    <li>Explore <code>BERT</code> or <code>LSA</code> via NLTK for deeper language modeling</li>
+                                    <li>Apply <code>TF-GNN</code> for graph-based URL analysis</li>
+                                </ul>
                         </div>
                 </div>
-                        <div class="column xl-6 lg-6 md-12 project-thumbnail">
-                            <div class="thumbnail-wrapper">
-                                <img src="images/phishing.jpeg" alt="Project Thumbnail">
-                            </div>
-                        </div>
             </div>
 
             <!-- Second Project Entry -->
             <div class="row project-entry">
                 <div class="column xl-6 lg-6 md-12 project-info">
                     <h3 class="text-lg">Defective Jar Lid Detection</h3>
-                        <p class="project-brief">
-                        Computer vision project detecting defective jar lids using image classification.
-                        </p>
-                            <a class="btn btn--stroke u-margin-top-sm" 
-                                href="https://github.com/yourusername/jar-lid-detection" 
-                                target="_blank" rel="noopener noreferrer">
-                                View GitHub Repo
-                            </a>
-                                <button class="toggle-details u-margin-top-sm" onclick="this.nextElementSibling.classList.toggle('show'); this.textContent = this.textContent === 'Show more' ? 'Show less' : 'Show more';">
-                                Show more
-                                </button>
-                            <div class="project-details">
-                                <p>
-                                    This project uses convolutional neural networks (CNNs) to identify packaging defects in manufacturing settings. Trained on labeled image datasets, the model detects subtle lid misalignments and damage with high accuracy. Useful for automating quality control processes.
-                                </p>
-                            </div>
+                    <p class="project-brief">
+                    Computer vision project detecting defective jar lids using image classification.
+                    </p>
+                    <a class="btn btn--stroke u-margin-top-sm" 
+                        href="https://github.com/bonisadar/SpringboardCapstoneThree" 
+                        target="_blank" rel="noopener noreferrer">
+                        View GitHub Repo
+                    </a>
+                    <button class="toggle-details u-margin-top-sm" onclick="document.querySelector('#jarlid-details').classList.toggle('show'); this.textContent = this.textContent === 'Show more' ? 'Show less' : 'Show more';">
+                    Show more
+                    </button>
+                            
                 </div>
 
                     <div class="column xl-6 lg-6 md-12 project-thumbnail">
@@ -318,8 +419,153 @@
                             <img src="images/defective_jar_lid.jpeg" alt="Jar Lid Detection Project Thumbnail" class="u-full-width">
                         </div>
                     </div>
-            </div>   <!--End of Second Project Entry-->
-           
+
+                    <!-- Second project Full-width blog-style details below -->
+                    <div class="column xl-12">
+                        <div class="project-details blog-style" id="jarlid-details">
+                            <h4>Project Overview</h4>
+                                <p>
+                                    In modern manufacturing, automation plays a critical role in enhancing efficiency, consistency, and quality control. One key area where automation can add significant value is in defect detection during the production process. This project focuses on automating the inspection of jar lids by developing a Convolutional Neural Network (CNN) model to classify defective versus non-defective lids.
+                                </p>
+                                <p>
+                                    Manual inspection is time-consuming and error-prone, making it unsuitable for large-scale operations. By leveraging deep learning and computer vision techniques, we aim to streamline the quality control process, reduce inspection time, and increase the accuracy of defect identification.
+                                </p>
+                                <p>
+                                    Our CNN-based model is trained on labeled image data to learn distinguishing features between acceptable and defective lids, enabling real-time and scalable quality assessment on the production line — contributing to the broader vision of smart manufacturing and Industry 4.0.
+                                </p>
+
+                            <h4>Data Source</h4>
+                                <p>
+                                    A labeled image dataset sourced from Kaggle was used for the binary classification task. The dataset included images of both intact and damaged jar lids.
+                                </p>
+
+                            <h4>Methodology</h4>
+                            <h5>1. Data Augmentation</h5>
+                            <p>To expand and diversify the dataset, the following image transformation techniques were used:</p>
+                            <ul>
+                                <li><strong>Rotations</strong>: 90°, +35°, and -35° angles</li>
+                                <li><strong>Flipping</strong>: Horizontal mirroring of images</li>
+                                <li><strong>Lighting Adjustments</strong>: Brightness increased and decreased to simulate varied lighting</li>
+                            </ul>
+
+                            <h5>2. Image Manipulation for Feature Enhancement</h5>
+                            <ul>
+                                <li><strong>X-ray Style Transformation</strong>: Inverting color channels to enhance contrast</li>
+                                <li><strong>Edge Detection</strong> using Sobel Filter</li>
+                                <li><strong>Image Sharpening</strong>: To emphasize defect features</li>
+                            </ul>
+
+                            <p>
+                                These preprocessing techniques helped create a more robust training dataset by exposing the model to a variety of realistic scenarios.
+                            </p>
+
+                            <h4>Model Architecture</h4>
+                            <p>The CNN model was built using <strong>TensorFlow/Keras</strong> for binary classification.</p>
+
+                            <h5>Input</h5>
+                            <ul>
+                                <li>Image Size: 128×128</li>
+                                <li>Channels: 1 (Grayscale)</li>
+                                <li>Input Shape: (128, 128, 1)</li>
+                            </ul>
+
+                            <h5>Convolutional Layers</h5>
+                            <ul>
+                                <li>
+                                <code>Conv2D(32, kernel_size=(5, 5), padding='same', kernel_initializer='he_normal')</code><br>
+                                → <code>LeakyReLU(alpha=0.1)</code> → <code>MaxPooling2D(pool_size=(2, 2))</code>
+                                </li>
+                                <li>
+                                <code>Conv2D(64, kernel_size=(5, 5), padding='same')</code><br>
+                                → <code>LeakyReLU</code> → <code>MaxPooling2D</code>
+                                </li>
+                                <li>
+                                <code>Conv2D(128, kernel_size=(5, 5), padding='same')</code><br>
+                                → <code>LeakyReLU</code> → <code>MaxPooling2D</code>
+                                </li>
+                            </ul>
+
+                            <h5>Dense Layers</h5>
+                            <ul>
+                                <li><code>Flatten()</code></li>
+                                <li><code>Dense(256, activation='relu', kernel_initializer='he_normal')</code></li>
+                                <li><code>Dropout(0.3)</code></li>
+                                <li><code>Dense(2)</code> (output logits)</li>
+                            </ul>
+
+                            <h5>Compilation & Training</h5>
+                            <pre><code class="language-python">
+                                model.compile(
+                                    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+                                    optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
+                                    metrics=['accuracy']
+                                )
+
+                                model.fit(
+                                    train_data,
+                                    validation_data=val_data,
+                                    batch_size=256,
+                                    epochs=50,
+                                    callbacks=[EarlyStopping(patience=3)]
+                                )
+                            </code></pre>
+
+                            <h4>Model Evaluation</h4>
+                            <h5>Accuracy Trends</h5>
+                            <ul>
+                                <li>Training Accuracy: Improved from ~51% to ~93% over 32 epochs</li>
+                                <li>Validation Accuracy: Plateaued around 90% by epoch 20</li>
+                                <li>Training Loss: Decreased to ~0.05</li>
+                                <li>Validation Loss: Plateaued around ~0.35</li>
+                            </ul>
+
+                            <h5>Validation Set Performance</h5>
+                            <pre><code>
+                                Class     Correct  Incorrect  Total   Accuracy (%)
+                                Intact    2017     149        2166    93.1%
+                                Damaged   1769     249        2018    87.7%
+                                Overall   —        —          4184    90.4%
+                            </code></pre>
+
+                            <h5>Test Set Performance</h5>
+                            <pre><code>
+                                Class     Correct  Incorrect  Total   Accuracy (%)
+                                Intact    2035     132        2167    93.9%
+                                Damaged   1759     259        2018    87.2%
+                                Overall   —        —          4185    90.5%
+                            </code></pre>
+
+                            <h5>ROC Curve & AUC</h5>
+                            <ul>
+                                <li>AUC Score: 0.97</li>
+                                <li>High true positive rate, low false positive rate</li>
+                                <li>Excellent class separation ability</li>
+                            </ul>
+
+                            <h4>Summary</h4>
+                            <ul>
+                                <li>Validation & test accuracy ~90%</li>
+                                <li>AUC score of 0.97</li>
+                                <li>Mild overfitting after epoch 20, but performance remained stable</li>
+                                <li>Model is reliable and production-ready for automated inspection</li>
+                            </ul>
+
+                            <h4>Future Improvements</h4>
+                            <ul>
+                                <li><strong>Transfer Learning</strong> with VGG16, ResNet50, EfficientNet</li>
+                                <li><strong>Deeper CNN Architectures</strong> for abstract feature learning</li>
+                                <li><strong>Mixed Activation Functions</strong> for better non-linearity</li>
+                                <li><strong>Inception Modules</strong> to capture multiscale features</li>
+                                <li><strong>Advanced Augmentation</strong>: elastic deformation, occlusion, noise injection</li>
+                            </ul>
+
+                            <p>
+                                These future directions aim to improve performance and generalization, making the system even more suitable for real-time deployment in modern manufacturing pipelines.
+                            </p>
+                        </div>
+                    </div>
+                </div>   <!--End of Second Project Entry-->
+            </div>
         </section>
 
 
@@ -491,7 +737,7 @@
 
             <div class="ss-go-top">
                 <a class="smoothscroll" title="Back to Top" href="#top">                 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M5.536 21.886a1.004 1.004 0 0 0 1.033-.064l13-9a1 1 0 0 0 0-1.644l-13-9A1 1 0 0 0 5 3v18a1 1 0 0 0 .536.886z"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);"><path d="M5.536 21.886a1.004 1.004 0 0 0 1.033-.064l13-9a1 1 0 0 0 0-1.644l-13-9A1 1 0 0 0 5 3v18a1 1 0 0 0 .536.886z"></path></svg>
                 </a>                                
                 <span>Back To Top</span>   
             </div> <!-- end ss-go-top -->

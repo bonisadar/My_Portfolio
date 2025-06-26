@@ -4503,3 +4503,59 @@ td:last-child {
 .attention-getter {
   text-align: justify;
 }
+
+.project-details.blog-style p {
+  text-align: justify;
+  text-justify: inter-word;
+  line-height: 1.6;
+  margin-bottom: var(--vspace-0_5);
+}
+
+
+.project-details pre {
+  background-color: var(--color-gray-9); /* light gray background */
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin-top: var(--vspace-0_5);
+  margin-bottom: var(--vspace-0_5);
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+  color: var(--color-black); /* <-- Force black text */
+}
+
+/*
+---------------------------------------------------------------------
+Syntax style / code block style
+---------------------------------------------------------------------
+*/
+
+.project-details pre code {
+  display: block;
+  white-space: pre;
+  color: var(--color-black); /* <-- Also ensure code itself is black */
+}
+
+
+.project-details pre code {
+  text-align: left;
+}
+
+.code-wrapper pre,
+.code-wrapper code {
+  text-align: left;
+  white-space: pre-wrap;
+  color: var(--color-black);
+}
+
+
+.project-details.blog-style {
+  display: none;
+  margin-top: var(--vspace-1);
+}
+
+.project-details.blog-style.show {
+  display: block;
+}
+
+
