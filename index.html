@@ -495,19 +495,19 @@ X_reduced = svd.fit_transform(X_text)
 
                             <h5>Compilation & Training</h5>
                             <pre><code class="language-python">
-                                model.compile(
-                                    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-                                    optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
-                                    metrics=['accuracy']
-                                )
+model.compile(
+    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+    optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
+    metrics=['accuracy']
+)
 
-                                model.fit(
-                                    train_data,
-                                    validation_data=val_data,
-                                    batch_size=256,
-                                    epochs=50,
-                                    callbacks=[EarlyStopping(patience=3)]
-                                )
+model.fit(
+    train_data,
+    validation_data=val_data,
+    batch_size=256,
+    epochs=50,
+    callbacks=[EarlyStopping(patience=3)]
+)
                             </code></pre>
 
                             <h4>Model Evaluation</h4>
@@ -521,18 +521,18 @@ X_reduced = svd.fit_transform(X_text)
 
                             <h5>Validation Set Performance</h5>
                             <pre><code>
-                                Class     Correct  Incorrect  Total   Accuracy (%)
-                                Intact    2017     149        2166    93.1%
-                                Damaged   1769     249        2018    87.7%
-                                Overall   —        —          4184    90.4%
+Class     Correct  Incorrect  Total   Accuracy (%)
+Intact    2017     149        2166    93.1%
+Damaged   1769     249        2018    87.7%
+Overall   —        —          4184    90.4%
                             </code></pre>
 
                             <h5>Test Set Performance</h5>
                             <pre><code>
-                                Class     Correct  Incorrect  Total   Accuracy (%)
-                                Intact    2035     132        2167    93.9%
-                                Damaged   1759     259        2018    87.2%
-                                Overall   —        —          4185    90.5%
+Class     Correct  Incorrect  Total   Accuracy (%)
+Intact    2035     132        2167    93.9%
+Damaged   1759     259        2018    87.2%
+Overall   —        —          4185    90.5%
                             </code></pre>
 
                             <h5>ROC Curve & AUC</h5>
