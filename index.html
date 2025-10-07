@@ -250,7 +250,7 @@
         <!-- # Project Section
         ===============================================================================================================================================================
         -->
-        <!--New renovated work section-->
+                <!--New renovated work section-->
         <section id="works" class="s-works target-section">
             <div class="row">
                 <div class="column xl-12">
@@ -259,6 +259,91 @@
                     </div> 
                 </div>
             </div> <!--end section-header-->
+
+            <!-- First Project Entry -->
+            <div class="row project-entry">
+                <!-- Left: Info -->
+                <div class="column xl-6 lg-6 md-12 project-info">
+                    <h3 class="text-lg">Dhaka City Precipitation Forecast</h3>
+                    <p class="project-brief">
+                    This project aims to forecast 24-hour precipitation in Dhaka city using a regression model trained on 20 years of historical weather data sourced from the Open-Meteo API.
+                    </p>
+
+                    <a class="btn btn--stroke u-margin-top-sm" 
+                    href="https://github.com/bonisadar/dhakacity-precipitation-forecast-mlops25" 
+                    target="_blank" rel="noopener noreferrer">
+                    View GitHub Repo
+                    </a>
+
+                    <button class="toggle-details u-margin-top-sm"
+                            onclick="document.querySelector('#phishing-details').classList.toggle('show'); this.textContent = this.textContent === 'Show more' ? 'Show less' : 'Show more';">
+                    Show more
+                    </button>
+                </div>
+
+                <!-- Right: Thumbnail -->
+                <div class="column xl-6 lg-6 md-12 project-thumbnail">
+                    <div class="thumbnail-wrapper">
+                    <img src="images/rainfall.png" alt="Precipitation Forecast Project Thumbnail" class="u-full-width">
+                    </div>
+                </div>
+      
+                <!-- Full-width blog-style details below -->
+                <div class="column xl-12">
+                    <div class="project-details blog-style" id="phishing-details">
+                            <h4>Project Overview</h4>
+                                <p>
+                                    Rainfall in Bangladesh specially in a busy city like Dhaka can cause severe urban disruption. The goal is to:
+                                </p>
+                                <ul>
+                                    <li>Forecast rainfall for the next 24 hours in Dhaka.</li>
+                                    <li>Retrain the model monthly on freshly fetched weather data.</li>
+                                    <li>Detect drift daily to monitor model health.</li>
+                                    <li>Send email notifications (via SendGrid) for model status and alerts.</li>
+                                    <li>Momitor model metrics in Grafana.</li>
+                                    <li>Model deployed using GCP Cloud Run/Services.</li>
+                                </ul>
+                                
+
+                                <!--Table insertion-->
+                               
+                                    
+                                    <h4 class="display-1">Tech Stack Overview</h4>
+                                      
+
+                                    <div class="row">
+                                        <div class="col-full">
+                                        <table class="styled-table">
+                                            <thead>
+                                            <tr>
+                                                <th>Layer</th>
+                                                <th>Tool / Framework</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr><td>Cloud Infrastructure</td><td>Google Cloud Platform (GCP)</td></tr>
+                                            <tr><td>Orchestration</td><td>Prefect 2.x</td></tr>
+                                            <tr><td>Experiment Tracking</td><td>MLflow</td></tr>
+                                            <tr><td>Data Fetching</td><td>Open-Meteo API</td></tr>
+                                            <tr><td>Model</td><td>XGBoost Regression</td></tr>
+                                            <tr><td>Infra-as-Code</td><td>Terraform</td></tr>
+                                            <tr><td>Monitoring & Notification</td><td>Grafana, SendGrid</td></tr>
+                                            <tr><td>Scheduling</td><td>Prefect Scheduled Flows</td></tr>
+                                            <tr><td>Cloud Deployment</td><td>GCP Cloud Run / Services</td></tr>
+                                            </tbody>
+                                        </table>
+                                        </div>
+                                    </div>
+                                
+    
+                                <!--End of table-->
+
+                        </div>
+                </div>
+            </div>
+
+            <!-- Second Project Entry -->
+
 
             <!-- First Project Entry -->
             <div class="row project-entry">
